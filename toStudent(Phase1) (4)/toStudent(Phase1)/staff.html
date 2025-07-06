@@ -1,0 +1,121 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Staff System</title>
+    <button onclick="window.history.back()" 
+    style="position: fixed; 
+        top: 20px; 
+        left: 20px;
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 1px solid #4CAF50;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;">
+    ← return
+    </button>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --staff-accent: #2196F3;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 30px;
+            position: relative;
+        }
+
+        .company-header {
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 28px;
+            color: var(--text-dark);
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .menu-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .menu-item {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateX(10px);
+            border-color: var(--primary-color);
+            background: #f8fff8;
+        }
+
+        .menu-item::after {
+            content: "➔";
+            position: absolute;
+            right: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-item:hover::after {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="company-header">
+        <span style="color: var(--primary-color);">•</span> Smile & Sunshine Toy Co. Ltd. <span style="color: var(--primary-color);">•</span>
+    </header>
+
+    <main class="menu-container">
+        <h2>Staff System</h2>
+        <div class="menu-item" onclick="handleMenu(1)">1. Insert items’ information</div>
+        <div class="menu-item" onclick="handleMenu(2)">2. Insert materials’ information</div>
+        <div class="menu-item" onclick="handleMenu(3)">3. Update order records and related material record</div>
+        <div class="menu-item" onclick="handleMenu(4)">4. Generate report</div>
+        <div class="menu-item" onclick="handleMenu(5)">5. Delete Item</div>
+    </main>
+
+    <script>
+        function handleMenu(option) {
+            switch (option) {
+                case 1:
+                    window.location.href = "insert_item.html";
+                    break;
+                case 2:
+                    window.location.href = "insert_material.html";
+                    break;
+                case 3:
+                    window.location.href = "update_records.html";
+                    break;
+                case 4:
+                    window.location.href = "generate_report.html";
+                    break;
+                case 5:
+                    window.location.href = "delete_item.html";
+                    break;
+                default:
+                    console.log("Invalid option");
+            }
+        }
+    </script>
+
+</body>
+</html>

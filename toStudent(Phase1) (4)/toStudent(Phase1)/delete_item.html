@@ -1,0 +1,191 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Item</title>
+    <link rel="stylesheet" href="common.css">
+    <button onclick="window.history.back()" 
+    style="position: fixed; 
+        top: 20px; 
+        left: 20px;
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 1px solid #4CAF50;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;">
+    ← return
+    </button>
+    <style>
+        .search-section {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .results-list {
+            margin-top: 2rem;
+            border-top: 2px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .item-card {
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .item-card:hover {
+            transform: translateX(5px);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .confirm-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-title">Project deletion management</h2>
+
+        <div class="search-section">
+            <div class="input-group" style="flex:1">
+                <input type="text" 
+                       placeholder="Enter product name or id"
+                       id="searchInput">
+            </div>
+            <button class="btn btn-primary" onclick="searchItems()">
+                <svg width="18" height="18" style="margin-right:8px">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                search
+            </button>
+        </div>
+
+        <div class="results-list" id="resultsList">
+
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <svg class="empty-icon" viewBox="0 0 24 24">
+                <path d="M3 3h18v18H3V3zm4 4v10m10-10v10M9 7h6m-6 4h6m-6 4h6"/>
+            </svg>
+            <h3 class="empty-title">No matching items found</h3>
+            <p class="empty-text">Please try other keywords or check your input</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" style="display: none;"></div>
+    <div class="confirm-modal" id="confirmModal" style="display: none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" style="color: #e74c3c; margin-bottom:1rem">
+            <path fill="currentColor" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1 6h2v8h-2v-8zm1 12.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/>
+        </svg>
+        <h3>Are you sure you want to permanently delete this item?</h3>
+        <p class="text-muted">This operation cannot be undone and all related records will be cleared!</p>
+        <div class="btn-group" style="margin-top:1.5rem">
+            <button class="btn btn-primary" onclick="confirmDelete()">Confirm Delete</button>
+            <button class="btn btn-secondary" onclick="hideConfirmDialog()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedItem = null;
+
+        function showConfirmDialog(button) {
+            selectedItem = button.closest('.item-card');
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('confirmModal').style.display = 'block';
+        }
+
+        function hideConfirmDialog() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            selectedItem.remove();
+            hideConfirmDialog();
+            showToast('項目已成功刪除！', 'success');
+            checkEmptyState();
+        }
+
+        function checkEmptyState() {
+            const isEmpty = document.querySelectorAll('.item-card').length === 0;
+            document.getElementById('emptyState').style.display = isEmpty ? 'block' : 'none';
+        }
+
+        function searchItems() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.item-card');
+            
+            let found = false;
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(keyword) ? 'flex' : 'none';
+                if(text.includes(keyword)) found = true;
+            });
+
+            document.getElementById('emptyState').style.display = found ? 'none' : 'block';
+        }
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            z-index: 1001;
+        }
+
+        .toast.success {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .toast.error {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+</body>
+</html>

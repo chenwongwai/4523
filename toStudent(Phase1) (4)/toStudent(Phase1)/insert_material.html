@@ -1,0 +1,86 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert materials’ information</title>
+    <link rel="stylesheet" href="common.css">
+    <button onclick="window.history.back()" 
+    style="position: fixed; 
+        top: 20px; 
+        left: 20px;
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 1px solid #4CAF50;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;">
+    ← return
+    </button>
+
+    <style>
+        .upload-area {
+            border: 2px dashed var(--border-color, #e0e0e0);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #f8fff8;
+        }
+
+        .file-list {
+            margin-top: 2rem;
+            border-top: 2px solid var(--border-color, #eee);
+            padding-top: 1.5rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--background-light, #f8f9fa);
+            margin: 0.5rem 0;
+            border-radius: var(--border-radius);
+        }
+
+        .file-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            stroke: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+         <nav class="navbar">...</nav>
+
+    <div class="container">
+        <h2 class="page-title">Add new materials in batches</h2>
+        
+        <div class="upload-area" 
+             ondragover="handleDragOver(event)" 
+             ondragleave="handleDragLeave(event)" 
+             ondrop="handleDrop(event)"
+             onclick="document.getElementById('fileInput').click()">
+            <svg class="file-icon" viewBox="0 0 24 24">
+                <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+            <p class="upload-text">Drag and drop the CSV file or click to upload</p>
+            <input type="file" id="fileInput" hidden accept=".csv">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-primary">Sumbit material data</button>
+            <button class="btn btn-secondary">Download template file</button>
+        </div>
+    </div>
+
+    <script>
+    </script>
+</body>
+</html>
