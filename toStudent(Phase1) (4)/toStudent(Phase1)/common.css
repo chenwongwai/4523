@@ -90,20 +90,17 @@
     padding-bottom: 0.5rem;
 }
 
-/* 按钮组 */
 .btn-group {
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
 }
 
-/* 上传文字样式 */
 .upload-text {
     color: var(--text-light);
     margin-top: 0.5rem;
 }
 
-/* 响应式调整 */
 @media (max-width: 768px) {
     .upload-area {
         padding: 1.5rem;

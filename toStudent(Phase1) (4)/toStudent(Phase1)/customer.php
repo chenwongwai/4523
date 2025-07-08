@@ -1,19 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'customer') {
+    header("Location: index.php");
+    exit();
+}
+
+$username = $_SESSION['username'];
+?>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Customer System</title>
-    <button onclick="window.history.back()" 
-    style="position: fixed; 
-        top: 20px; 
-        left: 20px;
-        padding: 8px 15px;
-        border-radius: 20px;
-        border: 1px solid #4CAF50;
-        background: white;
-        cursor: pointer;
-        transition: all 0.3s;">
-    ← return
-    </button>
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -42,7 +40,7 @@
 
         .menu-container {
             max-width: 800px;
-            margin: 100px auto 50px;
+            margin: 120px auto 50px;
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -76,12 +74,50 @@
         .menu-item:hover::after {
             opacity: 1;
         }
+
+        .top-bar {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .top-bar span {
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .logout-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--primary-color);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 <body>
+
     <header class="company-header">
         <span style="color: var(--primary-color);">•</span> Smile & Sunshine Toy Co. Ltd. <span style="color: var(--primary-color);">•</span>
     </header>
+
+    <div class="top-bar">
+        <span>👋 Welcome, <strong><?php echo htmlspecialchars($username); ?></strong></span>
+        <form action="logout.php" method="POST" style="margin: 0;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
 
     <main class="menu-container">
         <h2>Customer System</h2>
@@ -95,16 +131,16 @@
         function handleMenu(option) {
             switch (option) {
                 case 1:
-                    window.location.href = "Make_Order.html";
+                    window.location.href = "Make_Order.php";
                     break;
                 case 2:
-                    window.location.href = "View_order_record.html";
+                    window.location.href = "View_order_record.php";
                     break;
                 case 3:
-                    window.location.href = "Update_CP_Information.html";
+                    window.location.href = "Update_CP_Information.php";
                     break;
                 case 4:
-                    window.location.href = "DOrder.html";
+                    window.location.href = "DOrder.php";
                     break;
                 default:
                     console.log("Invalid option");

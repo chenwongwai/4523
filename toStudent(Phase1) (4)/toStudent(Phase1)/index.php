@@ -1,8 +1,27 @@
+<?php
+session_start();
+if (isset($_SESSION['username'])) {
+    $role = $_SESSION['role'];
+    header("Location: " . ($role === 'customer' ? 'customer.php' : 'staff.php'));
+    exit();
+}
+?>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Smile & Sunshine Toy Co. Ltd.</title>
+    <title>Smile & Sunshine Toy Co. Ltd. - Login</title>
     <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
         .company-header {
             position: absolute;
             top: 30px;
@@ -14,24 +33,13 @@
             letter-spacing: 2px;
         }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: #f8f9fa;
-            position: relative;
-        }
-
-        .index-box {
+        .login-box {
             background: white;
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             width: 360px;
-            margin-top: 80px;
+            margin-top: 60px;
         }
 
         .user-type {
@@ -73,8 +81,8 @@
         }
 
         .input-group input:focus {
-            outline: none;
             border-color: #4CAF50;
+            outline: none;
         }
 
         button[type="submit"] {
@@ -95,58 +103,34 @@
     </style>
 </head>
 <body>
+
     <div class="company-header">
         <span style="color: #4CAF50;">•</span> Smile & Sunshine Toy Co. Ltd. <span style="color: #4CAF50;">•</span>
     </div>
 
-    <div class="index-box">
-        <h2 style="text-align: center; margin-bottom: 5px; color: #333;">Welcome</h2>
+    <div class="login-box">
+        <h2 style="text-align: center; margin-bottom: 5px;">Welcome</h2>
         <p style="text-align: center; color: #666; font-size: 14px; margin-bottom: 25px;">Please select user type and log in</p>
 
-        <form id="indexForm">
+        <form method="POST" action="login.php">
             <div class="user-type">
-                <label>
-                    <input type="radio" name="userType" value="customer" checked> 
-                    <span>Customer Login</span>
-                </label>
-                <label>
-                    <input type="radio" name="userType" value="staff"> 
-                    <span>Staff Login</span>
-                </label>
+                <label><input type="radio" name="userType" value="customer" checked> Customer</label>
+                <label><input type="radio" name="userType" value="staff"> Staff</label>
             </div>
 
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Please Enter Your Username" required>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Please Enter Your Password" required>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
             </div>
 
             <button type="submit">Login</button>
         </form>
     </div>
 
-    <script>
-        document.getElementById('indexForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const userType = document.querySelector('input[name="userType"]:checked').value;
-            const credentials = {
-                customer: { username: 'guest', password: '1234' },
-                staff: { username: 'admin', password: '5678' }
-            };
-            const inputUsername = document.getElementById('username').value;
-            const inputPassword = document.getElementById('password').value;
-            const correct = credentials[userType];
-
-            if (inputUsername === correct.username && inputPassword === correct.password) {
-                const targetPage = userType === 'customer' ? 'customer.html' : 'staff.html';
-                window.location.href = targetPage;
-            } else {
-                alert('Invalid Username or Password');
-        }});
-    </script>
 </body>
 </html>
